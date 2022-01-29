@@ -8,15 +8,18 @@ public class MarkdownParse {
     public static ArrayList<String> getLinks(String markdown) {
         ArrayList<String> toReturn = new ArrayList<>();
         // find the next [, then find the ], then find the (, then take up to
-        // the next )
+        // the next ) )[
         int currentIndex = 0;
         int linkIndex = 0;
         while(currentIndex < markdown.length()) {
             System.out.println(currentIndex);
-            int nextOpenBracket = markdown.indexOf("[", currentIndex);
-            int nextCloseBracket = markdown.indexOf("]", nextOpenBracket);
-            int openParen = markdown.indexOf("(", nextCloseBracket);
-            int closeParen = markdown.indexOf(")", openParen);
+            int nextOpenBracket = markdown.indexOf("[", currentIndex); 
+            int nextCloseBracket = markdown.indexOf("]", nextOpenBracket); 
+            if (nextOpenBracket == -1 || nextCloseBracket == -1) {
+                break;
+            }
+            int openParen = markdown.indexOf("(", nextCloseBracket); 
+            int closeParen = markdown.indexOf(")", openParen);//0
             if (nextOpenBracket != 0 && markdown.charAt(nextOpenBracket-1) != '!'){
                 toReturn.add(markdown.substring(openParen + 1, closeParen));
                 linkIndex++;
